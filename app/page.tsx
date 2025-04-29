@@ -1,6 +1,13 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Plus } from 'lucide-react';
+import {
+  ArrowRight,
+  Plus,
+  Package,
+  Home,
+  Utensils,
+  BookOpen,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -35,8 +42,8 @@ export default function Dashboard() {
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Total Distributions
+              <CardTitle className='text-sm font-medium flex items-center gap-2'>
+                <Package className='h-4 w-4' /> Total Distributions
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -50,8 +57,8 @@ export default function Dashboard() {
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Townships Reached
+              <CardTitle className='text-sm font-medium flex items-center gap-2'>
+                <Home className='h-4 w-4' /> Townships Reached
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -65,7 +72,9 @@ export default function Dashboard() {
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>Food Kits</CardTitle>
+              <CardTitle className='text-sm font-medium flex items-center gap-2'>
+                <Utensils className='h-4 w-4' /> Food Kits
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Suspense fallback={<Skeleton className='h-8 w-20' />}>
@@ -78,8 +87,8 @@ export default function Dashboard() {
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Educational Materials
+              <CardTitle className='text-sm font-medium flex items-center gap-2'>
+                <BookOpen className='h-4 w-4' /> Educational Materials
               </CardTitle>
             </CardHeader>
             <CardContent>

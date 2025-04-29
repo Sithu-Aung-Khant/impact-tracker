@@ -11,11 +11,11 @@ import {
 } from 'recharts';
 
 const data = [
-  { name: 'Food Kits', value: 845, color: '#2563eb' },
-  { name: 'Educational Materials', value: 439, color: '#16a34a' },
-  { name: 'Medical Supplies', value: 285, color: '#dc2626' },
-  { name: 'Hygiene Kits', value: 175, color: '#9333ea' },
-  { name: 'Shelter Materials', value: 120, color: '#ea580c' },
+  { name: 'Food Kits', value: 845, color: '#4C6A9C' },
+  { name: 'Educational Materials', value: 439, color: '#A78BFA' },
+  { name: 'Medical Supplies', value: 285, color: '#48BB78' },
+  { name: 'Hygiene Kits', value: 175, color: '#F687B3' },
+  { name: 'Shelter Materials', value: 120, color: '#63B3ED' },
 ];
 
 export function DistributionChart() {
