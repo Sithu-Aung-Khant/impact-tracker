@@ -68,6 +68,17 @@ export interface RecentDistribution {
   fieldWorker: string;
 }
 
+export interface TotalDistributions {
+  totalDistributions: number;
+  percentageComparedToLastMonth: number;
+  totalTownshipsReached: number;
+  numberOfTownshipsThisMonth: number;
+  totalFoodKits: number;
+  foodKitsPercentage: number;
+  totalEducationMaterials: number;
+  educationMaterialsPercentage: number;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: 'api',
@@ -76,6 +87,7 @@ export const api = createApi({
     'SummaryByTownship',
     'SummaryByAidType',
     'RecentDistributions',
+    'TotalDistributions',
   ],
   endpoints: (build) => ({
     getTownships: build.query<Township[], void>({
@@ -96,6 +108,10 @@ export const api = createApi({
       query: () => 'distributions/recent',
       providesTags: ['RecentDistributions'],
     }),
+    getTotalDistributions: build.query<TotalDistributions, void>({
+      query: () => 'distributions/total',
+      providesTags: ['TotalDistributions'],
+    }),
   }),
 });
 
@@ -104,4 +120,5 @@ export const {
   useGetDistributionsSummaryByTownshipQuery,
   useGetDistributionsByAidTypeQuery,
   useGetRecentDistributionsQuery,
+  useGetTotalDistributionsQuery,
 } = api;

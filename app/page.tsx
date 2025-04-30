@@ -1,14 +1,6 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import {
-  ArrowRight,
-  Plus,
-  Package,
-  Home,
-  Utensils,
-  BookOpen,
-  Activity,
-} from 'lucide-react';
+import { ArrowRight, Plus, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { SummaryTable } from '@/components/dashboard/summary-table';
 import { DistributionChart } from '@/components/dashboard/distribution-chart';
 import { RecentDistributions } from '@/components/dashboard/recent-distributions';
+import { StatsGrid } from '@/components/dashboard/stats-grid';
 
 export default function Dashboard() {
   return (
@@ -45,68 +38,7 @@ export default function Dashboard() {
         </div>
       </header>
       <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8'>
-        <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-          <Card className='bg-gradient-to-br from-background to-muted/50 hover:from-background/90 hover:to-muted/60 transition-all duration-300 shadow-sm hover:shadow-md border'>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium flex items-center gap-2'>
-                <Package className='h-4 w-4' /> Total Distributions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<Skeleton className='h-8 w-20' />}>
-                <div className='text-2xl font-bold'>1,284</div>
-              </Suspense>
-              <p className='text-xs text-muted-foreground'>
-                +20% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className='bg-gradient-to-br from-background to-muted/50 hover:from-background/90 hover:to-muted/60 transition-all duration-300 shadow-sm hover:shadow-md border'>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium flex items-center gap-2'>
-                <Home className='h-4 w-4' /> Townships Reached
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<Skeleton className='h-8 w-20' />}>
-                <div className='text-2xl font-bold'>24</div>
-              </Suspense>
-              <p className='text-xs text-muted-foreground'>
-                +2 new townships this month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className='bg-gradient-to-br from-background to-muted/50 hover:from-background/90 hover:to-muted/60 transition-all duration-300 shadow-sm hover:shadow-md border'>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium flex items-center gap-2'>
-                <Utensils className='h-4 w-4' /> Food Kits
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<Skeleton className='h-8 w-20' />}>
-                <div className='text-2xl font-bold'>845</div>
-              </Suspense>
-              <p className='text-xs text-muted-foreground'>
-                +12% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card className='bg-gradient-to-br from-background to-muted/50 hover:from-background/90 hover:to-muted/60 transition-all duration-300 shadow-sm hover:shadow-md border'>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium flex items-center gap-2'>
-                <BookOpen className='h-4 w-4' /> Educational Materials
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Suspense fallback={<Skeleton className='h-8 w-20' />}>
-                <div className='text-2xl font-bold'>439</div>
-              </Suspense>
-              <p className='text-xs text-muted-foreground'>
-                +18% from last month
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <StatsGrid />
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
           <Card className='lg:col-span-4 bg-gradient-to-br from-background to-muted/50 hover:from-background/90 hover:to-muted/60 transition-all duration-300 shadow-sm hover:shadow-md border'>
             <CardHeader>
