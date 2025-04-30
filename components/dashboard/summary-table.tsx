@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Table,
   TableBody,
@@ -6,46 +8,68 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const summaryData = [
-  {
-    township: 'Yangon',
-    foodKits: 245,
-    educationalMaterials: 120,
-    medicalSupplies: 85,
-    total: 450,
-  },
-  {
-    township: 'Mandalay',
-    foodKits: 180,
-    educationalMaterials: 95,
-    medicalSupplies: 65,
-    total: 340,
-  },
-  {
-    township: 'Naypyidaw',
-    foodKits: 120,
-    educationalMaterials: 75,
-    medicalSupplies: 45,
-    total: 240,
-  },
-  {
-    township: 'Bago',
-    foodKits: 95,
-    educationalMaterials: 60,
-    medicalSupplies: 35,
-    total: 190,
-  },
-  {
-    township: 'Mawlamyine',
-    foodKits: 75,
-    educationalMaterials: 50,
-    medicalSupplies: 25,
-    total: 150,
-  },
-];
+import { useGetDistributionsSummaryByTownshipQuery } from '@/state/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function SummaryTable() {
+  const { data, isLoading } = useGetDistributionsSummaryByTownshipQuery();
+
+  if (isLoading) {
+    return (
+      <div className='overflow-auto'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Township</TableHead>
+              <TableHead className='text-right'>Food Kits</TableHead>
+              <TableHead className='text-right'>
+                Educational Materials
+              </TableHead>
+              <TableHead className='text-right'>Medical Supplies</TableHead>
+              <TableHead className='text-right'>Hygiene Kits</TableHead>
+              <TableHead className='text-right'>Shelter Materials</TableHead>
+              <TableHead className='text-right'>Total</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={index} aria-label='Loading row'>
+                <TableCell>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+                <TableCell className='text-right'>
+                  <Skeleton className='h-6 w-full opacity-50' />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return <div>No data available</div>;
+  }
+
+  // Limit the data to the first 5 rows
+  const limitedData = data.slice(0, 5);
+
   return (
     <div className='overflow-auto'>
       <Table>
@@ -55,11 +79,13 @@ export function SummaryTable() {
             <TableHead className='text-right'>Food Kits</TableHead>
             <TableHead className='text-right'>Educational Materials</TableHead>
             <TableHead className='text-right'>Medical Supplies</TableHead>
+            <TableHead className='text-right'>Hygiene Kits</TableHead>
+            <TableHead className='text-right'>Shelter Materials</TableHead>
             <TableHead className='text-right'>Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {summaryData.map((row) => (
+          {limitedData.map((row) => (
             <TableRow key={row.township}>
               <TableCell className='font-medium'>{row.township}</TableCell>
               <TableCell className='text-right'>{row.foodKits}</TableCell>
@@ -68,6 +94,10 @@ export function SummaryTable() {
               </TableCell>
               <TableCell className='text-right'>
                 {row.medicalSupplies}
+              </TableCell>
+              <TableCell className='text-right'>{row.hygieneKits}</TableCell>
+              <TableCell className='text-right'>
+                {row.shelterMaterials}
               </TableCell>
               <TableCell className='text-right font-medium'>
                 {row.total}
