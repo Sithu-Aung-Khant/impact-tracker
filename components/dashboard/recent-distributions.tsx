@@ -1,3 +1,5 @@
+'use client';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -8,51 +10,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const recentData = [
-  {
-    id: '1',
-    date: '2023-04-15',
-    township: 'Yangon',
-    aidType: 'Food Kits',
-    quantity: 50,
-    fieldWorker: 'Aung Min',
-  },
-  {
-    id: '2',
-    date: '2023-04-14',
-    township: 'Mandalay',
-    aidType: 'Educational Materials',
-    quantity: 30,
-    fieldWorker: 'Thiri Aung',
-  },
-  {
-    id: '3',
-    date: '2023-04-13',
-    township: 'Bago',
-    aidType: 'Medical Supplies',
-    quantity: 25,
-    fieldWorker: 'Kyaw Zaw',
-  },
-  {
-    id: '4',
-    date: '2023-04-12',
-    township: 'Naypyidaw',
-    aidType: 'Food Kits',
-    quantity: 40,
-    fieldWorker: 'Su Su',
-  },
-  {
-    id: '5',
-    date: '2023-04-11',
-    township: 'Mawlamyine',
-    aidType: 'Hygiene Kits',
-    quantity: 35,
-    fieldWorker: 'Tun Tun',
-  },
-];
+import { useGetRecentDistributionsQuery } from '@/state/api';
 
 export function RecentDistributions() {
+  const { data, isLoading, isError } = useGetRecentDistributionsQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Loading state
+  }
+
+  if (isError) {
+    return <div>Error loading recent distributions.</div>; // Error state
+  }
+
   return (
     <div className='overflow-auto'>
       <Table>
@@ -66,8 +36,8 @@ export function RecentDistributions() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {recentData.map((row) => (
-            <TableRow key={row.id}>
+          {data?.map((row) => (
+            <TableRow key={row.date + row.township + row.aidType}>
               <TableCell>{formatDate(row.date)}</TableCell>
               <TableCell>{row.township}</TableCell>
               <TableCell>
