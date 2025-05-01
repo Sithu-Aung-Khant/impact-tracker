@@ -11,57 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-
-const data = [
-  {
-    name: 'Yangon',
-    'Food Kits': 245,
-    'Educational Materials': 120,
-    'Medical Supplies': 85,
-    'Hygiene Kits': 65,
-    'Shelter Materials': 35,
-  },
-  {
-    name: 'Mandalay',
-    'Food Kits': 180,
-    'Educational Materials': 95,
-    'Medical Supplies': 65,
-    'Hygiene Kits': 45,
-    'Shelter Materials': 25,
-  },
-  {
-    name: 'Naypyidaw',
-    'Food Kits': 120,
-    'Educational Materials': 75,
-    'Medical Supplies': 45,
-    'Hygiene Kits': 35,
-    'Shelter Materials': 15,
-  },
-  {
-    name: 'Bago',
-    'Food Kits': 95,
-    'Educational Materials': 60,
-    'Medical Supplies': 35,
-    'Hygiene Kits': 25,
-    'Shelter Materials': 10,
-  },
-  {
-    name: 'Mawlamyine',
-    'Food Kits': 75,
-    'Educational Materials': 50,
-    'Medical Supplies': 25,
-    'Hygiene Kits': 20,
-    'Shelter Materials': 5,
-  },
-  {
-    name: 'Taunggyi',
-    'Food Kits': 65,
-    'Educational Materials': 45,
-    'Medical Supplies': 20,
-    'Hygiene Kits': 15,
-    'Shelter Materials': 5,
-  },
-];
+import { useGetDistributionsSummaryByTownshipQuery } from '@/state/api';
 
 const colors = {
   'Food Kits': '#2563eb',
@@ -73,8 +23,21 @@ const colors = {
 
 export function TownshipBarChart() {
   const [mounted, setMounted] = useState(false);
-  const [chartData, setChartData] = useState(data);
   const [chartHeight, setChartHeight] = useState(400);
+
+  const { data, isLoading, error } =
+    useGetDistributionsSummaryByTownshipQuery();
+
+  // Transform API data into the format expected by the BarChart
+  const chartData =
+    data?.map((row) => ({
+      name: row.township,
+      'Food Kits': row.foodKits,
+      'Educational Materials': row.educationalMaterials,
+      'Medical Supplies': row.medicalSupplies,
+      'Hygiene Kits': row.hygieneKits,
+      'Shelter Materials': row.shelterMaterials,
+    })) || [];
 
   // Prevent hydration issues with SSR
   useEffect(() => {
@@ -84,11 +47,8 @@ export function TownshipBarChart() {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setChartHeight(300);
-        // For mobile, limit to fewer townships to avoid overcrowding
-        setChartData(data.slice(0, 4));
       } else {
         setChartHeight(400);
-        setChartData(data);
       }
     };
 
@@ -101,6 +61,22 @@ export function TownshipBarChart() {
     return (
       <div className='h-[400px] flex items-center justify-center'>
         Loading chart...
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className='h-[400px] flex items-center justify-center'>
+        Loading data...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='h-[400px] flex items-center justify-center'>
+        Error loading data
       </div>
     );
   }

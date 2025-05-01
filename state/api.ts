@@ -80,6 +80,19 @@ export interface TotalDistributions {
   educationMaterialsPercentage: number;
 }
 
+export interface TownshipSupportStats {
+  mostSupportedTownship: {
+    name: string;
+    totalDistributions: number;
+  };
+  leastSupportedTownship: {
+    name: string;
+    totalDistributions: number;
+  };
+  averagePerTownship: number;
+  growthThisMonth: number;
+}
+
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: 'api',
@@ -89,6 +102,7 @@ export const api = createApi({
     'SummaryByAidType',
     'RecentDistributions',
     'TotalDistributions',
+    'TownshipSupportStats',
   ],
   endpoints: (build) => ({
     getTownships: build.query<Township[], void>({
@@ -126,6 +140,10 @@ export const api = createApi({
         'SummaryByAidType',
       ],
     }),
+    getTownshipSupportStats: build.query<TownshipSupportStats, void>({
+      query: () => 'townships/support-stats',
+      providesTags: ['TownshipSupportStats'],
+    }),
   }),
 });
 
@@ -136,4 +154,5 @@ export const {
   useGetRecentDistributionsQuery,
   useGetTotalDistributionsQuery,
   useCreateDistributionMutation,
+  useGetTownshipSupportStatsQuery,
 } = api;

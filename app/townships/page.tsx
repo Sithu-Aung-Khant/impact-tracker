@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TownshipTable } from '@/components/townships/township-table';
 import { TownshipMap } from '@/components/townships/township-map';
 import { TownshipBarChart } from '@/components/townships/township-bar-chart';
+import { TownshipSupportStats } from '../../components/townships/TownshipSupportStats';
 
 export default function TownshipsPage() {
   return (
@@ -104,58 +105,7 @@ export default function TownshipsPage() {
           </TabsContent>
         </Tabs>
 
-        <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
-          <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Most Supported Township
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='text-2xl font-bold'>Yangon</div>
-              <p className='text-xs text-muted-foreground'>
-                450 total distributions
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Least Supported Township
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='text-2xl font-bold'>Mawlamyine</div>
-              <p className='text-xs text-muted-foreground'>
-                150 total distributions
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Average Per Township
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='text-2xl font-bold'>274</div>
-              <p className='text-xs text-muted-foreground'>items distributed</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-medium'>
-                Growth This Month
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='text-2xl font-bold'>+15%</div>
-              <p className='text-xs text-muted-foreground'>
-                from previous month
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+        <TownshipSupportStats />
       </main>
     </div>
   );
