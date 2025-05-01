@@ -119,6 +119,21 @@ export default function AddRecordPage() {
                 <Input id='quantity' type='number' min='1' required />
               </div>
               <div className='space-y-2'>
+                <Label htmlFor='field-worker'>Field Worker</Label>
+                <Select required>
+                  <SelectTrigger id='field-worker'>
+                    <SelectValue placeholder='Select field worker' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='aung-min'>Aung Min</SelectItem>
+                    <SelectItem value='thiri-aung'>Thiri Aung</SelectItem>
+                    <SelectItem value='kyaw-zaw'>Kyaw Zaw</SelectItem>
+                    <SelectItem value='su-su'>Su Su</SelectItem>
+                    <SelectItem value='tun-tun'>Tun Tun</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className='space-y-2'>
                 <Label htmlFor='notes'>Notes (Optional)</Label>
                 <Textarea
                   id='notes'
