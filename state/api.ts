@@ -53,6 +53,7 @@ export interface DistributionSummary {
   hygieneKits: number;
   shelterMaterials: number;
   total: number;
+  lastDistributionDate: Date;
 }
 
 export interface DistributionByAidType {
