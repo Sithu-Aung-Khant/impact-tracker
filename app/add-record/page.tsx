@@ -29,25 +29,62 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import { DatePicker } from '@/components/ui/date-picker';
+import { useCreateDistributionMutation } from '@/state/api';
 
 export default function AddRecordPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [date, setDate] = useState<Date | null>(null);
+  const [township, setTownship] = useState<string>('');
+  const [aidType, setAidType] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(0);
+  const [fieldWorker, setFieldWorker] = useState<string>('');
+  const [notes, setNotes] = useState<string>('');
+
+  const [createDistribution] = useCreateDistributionMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate network delay and success
-    setTimeout(() => {
+    try {
+      if (!date || !township || !aidType || !quantity || !fieldWorker) {
+        toast({
+          title: 'Error',
+          description: 'Please fill in all required fields.',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      const response = await createDistribution({
+        date: date,
+        townshipId: parseInt(township),
+        aidTypeId: parseInt(aidType),
+        fieldWorkerId: parseInt(fieldWorker),
+        quantity,
+        notes,
+      }).unwrap();
+      console.log(response);
+
       toast({
         title: 'Record added successfully',
         description: 'The distribution record has been added to the system.',
       });
+      if (response) {
+        router.push('/');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to add the distribution record.',
+        variant: 'destructive',
+      });
+      console.log(error);
+    } finally {
       setIsSubmitting(false);
-      router.push('/');
-    }, 1000);
+    }
   };
 
   return (
@@ -75,61 +112,61 @@ export default function AddRecordPage() {
             <CardContent className='space-y-4'>
               <div className='space-y-2 space-x-2'>
                 <Label htmlFor='date'>Distribution Date</Label>
-                <DatePicker />
+                <DatePicker onSelect={setDate} />
               </div>
               <div className='space-y-2'>
                 <Label htmlFor='township'>Township</Label>
-                <Select required>
+                <Select required onValueChange={setTownship}>
                   <SelectTrigger id='township'>
                     <SelectValue placeholder='Select township' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='yangon'>Yangon</SelectItem>
-                    <SelectItem value='mandalay'>Mandalay</SelectItem>
-                    <SelectItem value='naypyidaw'>Naypyidaw</SelectItem>
-                    <SelectItem value='bago'>Bago</SelectItem>
-                    <SelectItem value='mawlamyine'>Mawlamyine</SelectItem>
-                    <SelectItem value='taunggyi'>Taunggyi</SelectItem>
+                    <SelectItem value='1'>Yangon</SelectItem>
+                    <SelectItem value='2'>Mandalay</SelectItem>
+                    <SelectItem value='3'>Naypyidaw</SelectItem>
+                    <SelectItem value='4'>Bago</SelectItem>
+                    <SelectItem value='5'>Mawlamyine</SelectItem>
+                    <SelectItem value='6'>Taunggyi</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className='space-y-2'>
                 <Label htmlFor='aid-type'>Aid Type</Label>
-                <Select required>
+                <Select required onValueChange={setAidType}>
                   <SelectTrigger id='aid-type'>
                     <SelectValue placeholder='Select aid type' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='food-kits'>Food Kits</SelectItem>
-                    <SelectItem value='educational-materials'>
-                      Educational Materials
-                    </SelectItem>
-                    <SelectItem value='medical-supplies'>
-                      Medical Supplies
-                    </SelectItem>
-                    <SelectItem value='hygiene-kits'>Hygiene Kits</SelectItem>
-                    <SelectItem value='shelter-materials'>
-                      Shelter Materials
-                    </SelectItem>
+                    <SelectItem value='1'>Food Kits</SelectItem>
+                    <SelectItem value='2'>Educational Materials</SelectItem>
+                    <SelectItem value='3'>Medical Supplies</SelectItem>
+                    <SelectItem value='4'>Hygiene Kits</SelectItem>
+                    <SelectItem value='5'>Shelter Materials</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className='space-y-2'>
                 <Label htmlFor='quantity'>Quantity</Label>
-                <Input id='quantity' type='number' min='1' required />
+                <Input
+                  id='quantity'
+                  type='number'
+                  min='1'
+                  required
+                  onChange={(e) => setQuantity(parseInt(e.target.value))}
+                />
               </div>
               <div className='space-y-2'>
                 <Label htmlFor='field-worker'>Field Worker</Label>
-                <Select required>
+                <Select required onValueChange={setFieldWorker}>
                   <SelectTrigger id='field-worker'>
                     <SelectValue placeholder='Select field worker' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='aung-min'>Aung Min</SelectItem>
-                    <SelectItem value='thiri-aung'>Thiri Aung</SelectItem>
-                    <SelectItem value='kyaw-zaw'>Kyaw Zaw</SelectItem>
-                    <SelectItem value='su-su'>Su Su</SelectItem>
-                    <SelectItem value='tun-tun'>Tun Tun</SelectItem>
+                    <SelectItem value='1'>Aung Min</SelectItem>
+                    <SelectItem value='2'>Thiri Aung</SelectItem>
+                    <SelectItem value='3'>Kyaw Zaw</SelectItem>
+                    <SelectItem value='4'>Su Su</SelectItem>
+                    <SelectItem value='5'>Tun Tun</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -138,6 +175,7 @@ export default function AddRecordPage() {
                 <Textarea
                   id='notes'
                   placeholder='Any additional information about this distribution'
+                  onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
             </CardContent>

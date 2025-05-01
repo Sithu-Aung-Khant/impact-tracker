@@ -112,6 +112,19 @@ export const api = createApi({
       query: () => 'distributions/total',
       providesTags: ['TotalDistributions'],
     }),
+    createDistribution: build.mutation<Distribution, Partial<Distribution>>({
+      query: (body) => ({
+        url: 'distributions',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [
+        'RecentDistributions',
+        'TotalDistributions',
+        'SummaryByTownship',
+        'SummaryByAidType',
+      ],
+    }),
   }),
 });
 
@@ -121,4 +134,5 @@ export const {
   useGetDistributionsByAidTypeQuery,
   useGetRecentDistributionsQuery,
   useGetTotalDistributionsQuery,
+  useCreateDistributionMutation,
 } = api;
